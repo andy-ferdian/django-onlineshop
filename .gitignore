@@ -1,0 +1,4 @@
+db.sqlite3
+onlineshop/__pycache__
+store/__pycache__
+store/migrations/
