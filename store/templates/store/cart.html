@@ -1,0 +1,71 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+
+				<a  class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Continue Shopping</a>
+
+				<br>
+				<hr>
+				<table class="table">
+					<tr class="Aligner-space-between">
+						<th><h5>Items: <strong id="items-total-qty">{{cartItems}}</strong></h5></th>
+						{{ big_int }}
+						<th><h5>Total: <strong id="items-total-prc">Rp. {{order.get_cart_total}},-</strong></h5></th>
+						{{ big_int|unlocalize }}
+						<th>
+							{% if items %}
+							<a id="checkout-btn" style="float:right; margin:5px;" class="btn btn-outline-success" href="{% url 'checkout' %}">Checkout &#8594;</a>
+							{% endif %}
+						</th>
+					</tr>
+				</table>
+
+			</div>
+
+			<br>
+			<div class="box-element">
+				<div class="cart-row">
+					<div style="flex:2" class="Aligner"></div>
+					<div style="flex:2" class="Aligner-left"><strong>Item</strong></div>
+					<div style="flex:1" class="Aligner"><strong>Price</strong></div>
+					<div style="flex:1" class="Aligner"><strong>Quantity</strong></div>
+					<div style="flex:1" class="Aligner"><strong>Total</strong></div>
+				</div>
+
+				{% for item in items %}
+				<div class="cart-row" id="item-row-{{item.product.id}}">
+					{% if item.product.image %}
+					<div style="flex:2" class="Aligner"><img class="row-image" src="{{item.product.image.url}}"></div>
+					{% else %}
+					<div style="flex:2" class="Aligner"><img class="row-image" src="{% static 'images/placeholder.png' %}"></div>
+					{% endif %}
+					<div style="flex:2" class="Aligner-left"><p>{{item.product.name}}</p></div>
+					{{ big_int }}
+					<div style="flex:1" class="Aligner"><p>Rp.{{item.product.price}},-</p></div>
+					{{ big_int|unlocalize }}
+					<div style="flex:1" class="Aligner">
+						<!-- <p id="item-quantity-{{item.product.id}}" class="quantity">x{{item.quantity}}</p> -->
+						<div class="qty Aligner">
+							<span data-product="{{item.product.id}}" data-action="remove" class="minus bg-dark update-cart Aligner">-</span>
+                <span id="item-quantity-{{item.product.id}}" class="count Aligner">{{item.quantity}}</span>
+                <span data-product="{{item.product.id}}" data-action="add" class="plus bg-dark update-cart Aligner">+</span>
+							<!-- <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
+
+							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}"> -->
+						</div>
+					</div>
+					{{ big_int }}
+					<div id="item-total-{{item.product.id}}" style="flex:1" class="Aligner"><p>Rp. {{item.get_total}},-</p></div>
+					{{ big_int|unlocalize }}
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+{% endblock content %}

@@ -1,0 +1,207 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+     <div class="row">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				<form id="form">
+          {% csrf_token %}
+          <p>User Information:</p>
+					<div id="user-info">
+						<!-- <div class="form-group">
+              <label for="nama">Nama</label>
+							<input id="nama" required class="form-control" type="text" name="name" placeholder="Nama..">
+						</div>
+						<div class="form-group">
+              <label for="email">Email</label>
+							<input id="email" required class="form-control" type="email" name="email" placeholder="Email..">
+						</div>
+            <div class="form-group">
+              <label for="telepon">Telepon</label>
+							<input id="telepon" required class="form-control" type="text" name="phone" placeholder="Telepon..">
+						</div> -->
+            <div class="form-group">
+              <label for="nama" class="bmd-label-floating">Nama</label>
+              <input name="name" type="text" class="form-control" id="nama">
+              <!-- <span class="bmd-help">We'll never share your email with anyone else.</span> -->
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail2" class="bmd-label-floating">Email address</label>
+              <input name="email" type="email" class="form-control" id="exampleInputEmail2">
+              <span class="bmd-help">We'll never share your email with anyone else.</span>
+            </div>
+            <div class="form-group">
+              <label for="telepon" class="bmd-label-floating">Handphone</label>
+              <input name="phone" type="number" class="form-control" id="telepon">
+              <span class="bmd-help">We'll never share your phone number with anyone else.</span>
+            </div>
+					</div>
+
+					<div id="shipping-info">
+						<br>
+						<p>Shipping Information:</p>
+						<!-- <hr> -->
+            <div class="form-group">
+              <label for="alamat" class="bmd-label-floating">alamat</label>
+              <input name="address" type="text" class="form-control" id="alamat">
+              <!-- <span class="bmd-help">We'll never share your email with anyone else.</span> -->
+            </div>
+            <div class="form-group">
+              <label for="kota" class="bmd-label-floating">kota</label>
+              <input name="city" type="text" class="form-control" id="kota">
+              <!-- <span class="bmd-help">We'll never share your email with anyone else.</span> -->
+            </div>
+            <div class="form-group">
+              <label for="kecamatan" class="bmd-label-floating">kecamatan</label>
+              <input name="kecamatan" type="text" class="form-control" id="kecamatan">
+              <!-- <span class="bmd-help">We'll never share your email with anyone else.</span> -->
+            </div>
+            <div class="form-group">
+              <label for="provinsi" class="bmd-label-floating">provinsi</label>
+              <input name="province" type="text" class="form-control" id="provinsi">
+              <!-- <span class="bmd-help">We'll never share your email with anyone else.</span> -->
+            </div>
+            <div class="form-group">
+              <label for="kodepos" class="bmd-label-floating">kodepos</label>
+              <input name="postcode" type="number" class="form-control" id="kodepos">
+              <!-- <span class="bmd-help">We'll never share your email with anyone else.</span> -->
+            </div>
+					</div>
+
+					<br>
+					<input id="form-button" class="btn btn-outline-success btn-block" type="submit" value="Continue &#8594;">
+				</form>
+			</div>
+
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+				<hr>
+				<h3>Order Summary</h3>
+				<hr>
+        {% for item in items %}
+				<div class="cart-row">
+          {% if item.product.image %}
+					<div style="flex:2"><img class="row-image mr-2" src="{{item.product.image.url}}"></div>
+					{% else %}
+					<div style="flex:2"><img class="row-image mr-2" src="{% static 'images/placeholder.png' %}"></div>
+					{% endif %}
+					<div style="flex:3"><p>{{item.product.name}}</p></div>
+          {{ big_int }}
+					<div class="text-center" style="flex:2"><p>Rp. {{item.product.price}},-</p></div>
+					{{ big_int|unlocalize }}
+					<div style="flex:1"><p>x{{item.quantity}}</p></div>
+				</div>
+        {% endfor %}
+				<h5>Items: {{cartItems}}</h5>
+        {{ big_int }}
+				<h5>Total: Rp. {{order.get_cart_total}},-</h5>
+        {{ big_int|unlocalize }}
+			</div>
+      <br>
+      <div class="box-element hidden" id="payment-info">
+				<p class="mb-3">Pilihan Pembayaran :</p>
+        <div class="radio">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            Transfer bank
+          </label>
+        </div>
+        <div class="radio disabled">
+          <label class="text-muted">
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+            Gopay (comming soon)
+          </label>
+        </div>
+        <div class="mt-3">
+          <button class="btn btn-raised btn-success" id="make-payment">Bayar sekarang</button>
+        </div>
+			</div>
+		</div>
+	</div>
+
+  <script type="text/javascript">
+    var shipping = '{{order.shipping}}'
+    var total = '{{order.get_cart_total}}'
+    var total_format = total.replace(/\./g,'');
+    console.log(shipping)
+    if(shipping == 'False'){
+      document.getElementById('shipping-info').innerHTML = ''
+    }
+
+    var form = document.getElementById('form')
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault()
+      console.log('Form submitted...')
+      document.getElementById('form-button').classList.add('hidden')
+      document.getElementById('payment-info').classList.remove('hidden')
+
+    })
+
+    document.getElementById('make-payment').addEventListener('click', function(e){
+      submitFormData()
+    })
+
+    function submitFormData(){
+      console.log('payment button clicked')
+
+      var userFormData = {
+        'name':null,
+        'email':null,
+        'phone':null,
+        'total':total_format,
+      }
+
+      var shippingInfo = {
+        'address':null,
+        'city':null,
+        'province':null,
+        'kecamatan':null,
+        'postcode':null,
+      }
+
+      if(shipping != 'False'){
+        shippingInfo.address = form.address.value
+        shippingInfo.city = form.city.value
+        shippingInfo.province = form.province.value
+        shippingInfo.kecamatan = form.kecamatan.value
+        shippingInfo.postcode = form.postcode.value
+      }
+
+      if(user == 'AnonymousUser'){
+        userFormData.name = form.name.value
+        userFormData.email = form.email.value
+        userFormData.phone = form.phone.value
+      }
+
+      var url = '/process_order/'
+      fetch(url, {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'X-CSRFToken': csrftoken
+        },
+        body:JSON.stringify({'form': userFormData, 'shipping': shippingInfo})
+      })
+
+      .then((response) =>{
+        return response.json()
+      })
+
+      .then((data) =>{
+        console.log('data:',data)
+        alert('Transaction completed')
+        cart = {}
+        document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        window.location.href = "{% url 'store' %}"
+        // location.reload()
+      })
+
+    }
+  </script>
+{% endblock content %}

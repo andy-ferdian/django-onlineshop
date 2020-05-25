@@ -1,0 +1,118 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="box-element">
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="card-header">
+      <h4 class="m-0">{{page_title}}</h4>
+    </div>
+    <div class="card-body register-card-body">
+      <div class="row">
+        <div class="col-md-5 mr-4 ml-3 mb-2">
+          <p>Customer Profile :</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 mr-4 ml-3">
+          <div class="form-group">
+            <label for="username_form" class="bmd-label-floating">Username</label>
+            <input type="text" name="username" class="form-control" id="username_form" placeholder="" value="{{data.username}}" />
+            {{ form.errors.username }}
+          </div>
+        </div>
+        <div class="col-md-5 mb-2 mr-3">
+          <div class="form-group">
+            <label for="email_form" class="bmd-label-floating">Email</label>
+            <input type="email" name="email" class="form-control" id="email_form" placeholder="" value="{{data.email}}" />
+          </div>
+        </div>
+      </div>
+
+      {% if data %}
+
+      {% else %}
+
+      <div class="row">
+        <div class="col-md-5 mr-4 ml-3">
+          <div class="form-group">
+            <label for="password_form" class="bmd-label-floating">Password</label>
+            <input type="password" name="password1" class="form-control" id="password_form" placeholder="" value="{{data.password}}" />
+            {{ form.errors.password1 }}
+          </div>
+          <div class="form-group">
+            <label for="confirm_password_form" class="bmd-label-floating">Confirm Password</label>
+            <input type="password" name="password2" class="form-control" id="confirm_password_form" placeholder="" value="" />
+            {{ form.errors.password2 }}
+          </div>
+        </div>
+        <div class="col-md-5 mr-4">
+          <div class="form-group">
+            <label for="phone_form" class="bmd-label-floating">Handphone number</label>
+            <input type="text" name="phone" class="form-control" id="phone_form" placeholder="" value="{{data.phone}}" />
+            {{ customer_form.errors.phone }}
+          </div>
+
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-8 mr-4 ml-3">
+          <p class="mb-2">Alamat Pengiriman :</p>
+          <div class="form-group">
+            <label for="username_form" class="bmd-label-floating">Alamat</label>
+            <input type="text" name="username" class="form-control" id="username_form" placeholder="" value="{{data.username}}" />
+            {{ form.errors.username }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 mr-4 ml-3">
+          <div class="form-group">
+            <label for="username_form" class="bmd-label-floating">Kota/Kabupaten</label>
+            <input type="text" name="username" class="form-control" id="username_form" placeholder="" value="{{data.username}}" />
+            {{ form.errors.username }}
+          </div>
+        </div>
+        <div class="col-md-5 mr-4">
+          <div class="form-group">
+            <label for="username_form" class="bmd-label-floating">Kecamatan</label>
+            <input type="text" name="username" class="form-control" id="username_form" placeholder="" value="{{data.username}}" />
+            {{ form.errors.username }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 mr-4 ml-3">
+          <div class="form-group">
+            <label for="username_form" class="bmd-label-floating">Provinsi</label>
+            <input type="text" name="username" class="form-control" id="username_form" placeholder="" value="{{data.username}}" />
+            {{ form.errors.username }}
+          </div>
+        </div>
+        <div class="col-md-5 mr-4">
+          <div class="form-group">
+            <label for="username_form" class="bmd-label-floating">Kode Pos</label>
+            <input type="text" name="username" class="form-control" id="username_form" placeholder="" value="{{data.username}}" />
+            {{ form.errors.username }}
+          </div>
+        </div>
+      </div>
+
+      {% endif %}
+      <br>
+      <div class="row">
+        <div class="col-md-5 mr-4 ml-3">
+          <button type="submit" class="btn btn-raised btn-success mt-3 px-3">Submit</button>
+          <a href="{% url 'store' %}" class="btn btn-raised btn-secondary ml-2 mt-3 px-3">Cancel</a>
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <br />
+</div>
+{% endblock %}
