@@ -24,18 +24,32 @@
 						</div> -->
             <div class="form-group">
               <label for="nama" class="bmd-label-floating">Nama</label>
-              <input name="name" type="text" class="form-control" id="nama">
+              {% if user.is_authenticated %}
+                <input name="name" type="text" class="form-control" id="nama" value="{{user}}" disabled>
+              {% else %}
+                <input name="name" type="text" class="form-control" id="nama">
+              {% endif %}
               <!-- <span class="bmd-help">We'll never share your email with anyone else.</span> -->
             </div>
             <div class="form-group">
               <label for="exampleInputEmail2" class="bmd-label-floating">Email address</label>
-              <input name="email" type="email" class="form-control" id="exampleInputEmail2">
-              <span class="bmd-help">We'll never share your email with anyone else.</span>
+              {% if user.is_authenticated %}
+                <input name="email" type="email" class="form-control" id="exampleInputEmail2" value="{{user.email}}" disabled>
+                <span class="bmd-help">We'll never share your email with anyone else.</span>
+              {% else %}
+                <input name="email" type="email" class="form-control" id="exampleInputEmail2">
+                <span class="bmd-help">We'll never share your email with anyone else.</span>
+              {% endif %}
             </div>
             <div class="form-group">
               <label for="telepon" class="bmd-label-floating">Handphone</label>
-              <input name="phone" type="number" class="form-control" id="telepon">
-              <span class="bmd-help">We'll never share your phone number with anyone else.</span>
+              {% if user.is_authenticated %}
+                <input name="phone" type="number" class="form-control" id="telepon" value="{{customer.phone}}" disabled>
+                <span class="bmd-help">We'll never share your phone number with anyone else.</span>
+              {% else %}
+                <input name="phone" type="number" class="form-control" id="telepon">
+                <span class="bmd-help">We'll never share your phone number with anyone else.</span>
+              {% endif %}
             </div>
 					</div>
 

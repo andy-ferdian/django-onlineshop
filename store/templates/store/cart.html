@@ -13,11 +13,11 @@
 				<hr>
 				<table class="table">
 					<tr class="Aligner-space-between">
-						<th><h5>Items: <strong id="items-total-qty">{{cartItems}}</strong></h5></th>
+						<th width=29% class="text-center"><h5>Items: <strong id="items-total-qty">{{cartItems}}</strong></h5></th>
 						{{ big_int }}
-						<th><h5>Total: <strong id="items-total-prc">Rp. {{order.get_cart_total}},-</strong></h5></th>
+						<th class="text-center" width=40%><h5>Total: <strong id="items-total-prc">Rp. {{order.get_cart_total}},-</strong></h5></th>
 						{{ big_int|unlocalize }}
-						<th>
+						<th width=31%>
 							{% if items %}
 							<a id="checkout-btn" style="float:right; margin:5px;" class="btn btn-outline-success" href="{% url 'checkout' %}">Checkout &#8594;</a>
 							{% endif %}

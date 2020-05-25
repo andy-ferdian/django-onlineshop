@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Ecom</title>
+	<title>Shopee</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
 
@@ -54,7 +54,10 @@
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	  <a class="navbar-brand" href="{% url 'store' %}">Ecom</a>
+		<div class="container-fluid">
+
+
+	  <a class="navbar-brand" href="{% url 'store' %}">Shopee</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -67,15 +70,32 @@
 
 	    </ul>
 	    <div class="form-inline my-2 my-lg-0">
-	     	<a href="#"class="btn btn-raised btn-warning" style="margin-bottom:0;">Login</a>
+				{% if user.is_authenticated %}
+				<a href="{% url 'logout' %}"class="btn btn-info text-white" style="margin-bottom:0;">{{user}}</a>
+				<span>|</span>
+
+				{% else %}
+
+				{% endif %}
+				{% if user.is_authenticated %}
+				<a href="{% url 'logout' %}"class="btn btn-warning text-white" style="margin-bottom:0;">Logout</a>
+
+				{% else %}
+				<a href="{% url 'accounts:register' %}"class="btn btn-success ml-2 text-white" style="margin-bottom:0;">Daftar</a>
+				<span>|</span>
+				<a href="{% url 'login' %}"class="btn btn-success text-white" style="margin-bottom:0;">Login</a>
+
+				{% endif %}
+
 
 	     	<a href="{% url 'cart' %}">
-	    		<img  id="cart-icon" src="{% static 'images/cart.png' %}">
+	    		<img id="cart-icon" src="{% static 'images/cart.png' %}">
 	    	</a>
 	    	<p id="cart-total">{{cartItems}}</p>
 
 	    </div>
 	  </div>
+		</div>
 	</nav>
 
      <div class="container">

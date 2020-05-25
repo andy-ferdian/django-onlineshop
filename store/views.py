@@ -33,11 +33,17 @@ def cart(request):
 def checkout(request):
 	data = cartData(request)
 
+	if request.user.is_authenticated:
+		customer = Customer.objects.get(user=request.user)
+	else:
+		customer = {}
+
 	cartItems = data['cartItems']
 	order = data['order']
 	items = data['items']
 
-	context = {'items':items, 'order':order, 'cartItems':cartItems}
+	context = {'items':items, 'order':order, 'cartItems':cartItems, 'customer':customer}
+	# import pdb; pdb.set_trace()
 	return render(request, 'store/checkout.html', context)
 
 
