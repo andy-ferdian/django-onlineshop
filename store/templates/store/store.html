@@ -5,19 +5,36 @@
 {% block content %}
 	<div class="row">
 		{% for product in products %}
-		<div class="col-lg-4">
-			{% if product.image %}
-				<img class="thumbnail" src="{{product.image.url}}">
+		<div class="col-lg-4 mb-3">
+			{% if product %}
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						{% for product_image in product.productimage_set.all %}
+							{% if product_image.main_image %}
+								<div class="swiper-slide">
+									<img class="img-fluid" src="{{ product_image.image.url }}" />
+								</div>
+							{% else %}
+								<div class="swiper-slide">
+									<img class="img-fluid" src="{{ product_image.image.url }}" />
+								</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+					<!-- Add Arrows -->
+					<div class="swiper-button-next" style="color:#dee2e6;"></div>
+					<div class="swiper-button-prev" style="color:#dee2e6;"></div>
+				</div>
 			{% else %}
 				<img class="thumbnail" src="{% static 'images/placeholder.png' %}">
 			{% endif %}
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>
 				<hr>
-				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn addto-cart">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
+				<button data-product="{{product.product_id}}" data-action="add" class="btn btn-outline-secondary btn-sm add-btn addto-cart">Add to Cart</button>
+				<a class="btn btn-outline-success btn-sm" href="{% url 'product' product.slug product.product_id %}">View</a>
 				{{ big_int }}
-				<h5 style="display: inline-block; float: right"><strong>Rp.{{product.price}},-</strong></h5>
+					<h5 style="display: inline-block; float: right"><strong>Rp {{product.price}}</strong></h5>
 				{{ big_int|unlocalize }}
 			</div>
 		</div>

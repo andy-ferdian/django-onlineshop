@@ -85,7 +85,7 @@
 					</div>
 
 					<br>
-					<input id="form-button" class="btn btn-outline-success btn-block" type="submit" value="Continue &#8594;">
+					<input id="form-button" class="btn btn-outline-success btn-block" type="submit" value="Lanjut pembayaran &#8594;">
 				</form>
 			</div>
 
@@ -106,14 +106,14 @@
 					{% endif %}
 					<div style="flex:3"><p>{{item.product.name}}</p></div>
           {{ big_int }}
-					<div class="text-center" style="flex:2"><p>Rp. {{item.product.price}},-</p></div>
+					<div class="text-center" style="flex:2"><p>Rp  {{item.product.price}}</p></div>
 					{{ big_int|unlocalize }}
 					<div style="flex:1"><p>x{{item.quantity}}</p></div>
 				</div>
         {% endfor %}
 				<h5>Items: {{cartItems}}</h5>
         {{ big_int }}
-				<h5>Total: Rp. {{order.get_cart_total}},-</h5>
+				<h5>Total: Rp  {{order.get_cart_total}}</h5>
         {{ big_int|unlocalize }}
 			</div>
       <br>

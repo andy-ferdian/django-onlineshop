@@ -18,7 +18,8 @@ def cookieCart(request):
     for i in cart:
         cartItems += cart[i]['quantity']
 
-        product = Product.objects.get(id=i)
+        product = Product.objects.get(product_id=i)
+        image = ProductMainImage.objects.get(product=i)
         total = (product.price * cart[i]['quantity'])
 
         order['get_cart_total'] += total
@@ -26,10 +27,10 @@ def cookieCart(request):
 
         item = {
             'product':{
-                'id':product.id,
+                'product_id':product.product_id,
                 'name':product.name,
                 'price':product.price,
-                'image':product.image
+                'image':image.main_image
                 },
             'quantity':cart[i]['quantity'],
             'get_total':total,
@@ -79,7 +80,7 @@ def guessOrder(request, data):
     )
 
     for item in items:
-        product = Product.objects.get(id=item['product']['id'])
+        product = Product.objects.get(id=item['product']['product_id'])
 
         orderItem = OrderItem.objects.create(
             product=product,

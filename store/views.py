@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import json
 import datetime
+from django.db.models import Avg, Max, Min, Sum
 from decimal import *
 
 from .models import *
@@ -14,8 +15,34 @@ def store(request):
 	cartItems = data['cartItems']
 
 	product = Product.objects.all()
+	# import pdb; pdb.set_trace()
 	context = {'products':product, 'cartItems':cartItems}
 	return render(request, 'store/store.html', context)
+
+
+def product(request, product_slug, product_id):
+	data = cartData(request)
+
+	cartItems = data['cartItems']
+	# import pdb; pdb.set_trace()
+	product = Product.objects.get(product_id=product_id)
+	# main_image = ProductMainImage.objects.select_related('product').filter(product=product_id)
+	# additional_image = ProductAdditionalImage.objects.select_related('product').filter(product=product_id)
+	all_color = ProductVariation.objects.select_related('color').filter(product=product_id)
+	all_size = ProductVariation.objects.select_related('size').filter(product=product_id)
+
+	min_prc = ProductVariation.objects.filter(product=product_id).aggregate(Min('price'))
+	max_prc = ProductVariation.objects.filter(product=product_id).aggregate(Max('price'))
+
+	min_price = min_prc['price__min']
+	max_price = max_prc['price__max']
+	# import pdb; pdb.set_trace()
+	context = 	{'product':product, 'cartItems':cartItems,
+	 			 'all_color':all_color, 'all_size':all_size,
+				 'min_price':min_price, 'max_price':max_price
+				 }
+
+	return render(request, 'store/product.html', context)
 
 
 def cart(request):
@@ -58,7 +85,8 @@ def updateItem(request):
 		print('ProductId:', productId)
 
 		customer = request.user.customer
-		product = Product.objects.get(id=productId)
+		# import pdb; pdb.set_trace()
+		product = Product.objects.get(product_id=productId)
 		order, created = Order.objects.get_or_create(customer=customer, complete=False)
 
 		orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
@@ -93,7 +121,7 @@ def updateItem(request):
 		for i in cart:
 			cartItems += cart[i]['quantity']
 
-			product = Product.objects.get(id=i)
+			product = Product.objects.get(product_id=i)
 			total = (product.price * cart[i]['quantity'])
 			grand_total += total
 			cart_total += cart[i]['quantity']
@@ -103,7 +131,7 @@ def updateItem(request):
 
 			item = {
 				'product':{
-					'id':product.id,
+					'id':product.product_id,
 					},
 				'quantity':cart[i]['quantity'],
 				'get_total':total,

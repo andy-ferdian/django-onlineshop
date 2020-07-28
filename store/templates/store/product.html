@@ -1,0 +1,100 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+	<div class="box-element product">
+		<div class="row">
+			<div class="col">
+
+				<a  class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Continue Shopping</a>
+				<hr>
+			</div>
+		</div>
+
+		<!-- <br> -->
+		<!-- <hr> -->
+		<!-- <div class="col"> -->
+		<div class="row">
+			<div class="col-lg-5 my-3">
+				{% if product %}
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							{% for product_image in product.productimage_set.all %}
+								{% if product_image.main_image %}
+									<div class="swiper-slide">
+										<img class="img-fluid" src="{{ product_image.image.url }}" />
+									</div>
+								{% else %}
+									<div class="swiper-slide">
+										<img class="img-fluid" src="{{ product_image.image.url }}" />
+									</div>
+								{% endif %}
+							{% endfor %}
+						</div>
+						<!-- Add Arrows -->
+				    <div class="swiper-button-next" style="color:#dee2e6;"></div>
+				    <div class="swiper-button-prev" style="color:#dee2e6;"></div>
+					</div>
+				{% else %}
+					<img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+				{% endif %}
+			</div>
+				<div class="col-lg-7 my-auto">
+					<h5><b>{{product.name}}</b></h5>
+					<hr>
+					{{ big_int }}
+					<h4><b>Rp {{min_price}} - Rp {{max_price}}</b></h4>
+					{{ big_int|unlocalize }}
+					<hr>
+					<div class="row">
+						<div class="col-lg-2 my-auto">
+							<h6>Warna:</h6>
+						</div>
+						<div class="col-lg-10 my-auto">
+							<div class="btn-group colors my-0" data-toggle="buttons">
+								{% for prd_color in all_color %}
+									<label class="btn btn-outline-secondary mr-2 update-price" data-product="{{product.product_id}}" data-action="select" data-value="{{prd_color.color.color_name}}">
+										<input type="radio"  name="options1" id="option1" autocomplete="off" style="display:none;">{{prd_color.color.color_name}}
+									</label>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-lg-2 my-auto">
+							<h6>Ukuran:</h6>
+						</div>
+						<div class="col-lg-10 my-auto">
+							<div class="btn-group sizes my-0" data-toggle="buttons">
+								{% for prd_size in all_size %}
+									<label class="btn btn-outline-secondary mr-2">
+										<input type="radio" name="options2" id="option2" autocomplete="off" style="display:none;">{{prd_size.size.size}}
+									</label>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-lg-2 my-auto">
+							<h6>Quantity:</h6>
+						</div>
+						<div class="col-lg-4 my-auto pr-0">
+						<form action="" method="post">
+							<div>
+							   <input type="button" value="-" class="minus qty-minus">
+							   <input type="number" value="1" class="count">
+							   <input type="button" value="+" class="plus qty-plus">
+							</div>
+						</div>
+						<div class="col-lg-6 my-auto pl-0">
+							<button data-product="{{product.product_id}}" data-action="add" class="btn btn-sm btn-outline-success add-btn prd-addto-cart">Add to Cart</button>
+						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+{% endblock content %}
