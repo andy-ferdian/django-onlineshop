@@ -6,7 +6,7 @@ from django.db.models import Avg, Max, Min, Sum
 from decimal import *
 
 from .models import *
-from . utils import cookieCart,cartData, guessOrder
+from . utils import *
 
 # Create your views here.
 def store(request):
@@ -14,9 +14,18 @@ def store(request):
 
 	cartItems = data['cartItems']
 
-	product = Product.objects.all()
+	products = Product.objects.all()
+
+	for obj in products:
+		min_prc = ProductVariation.objects.filter(product=obj.product_id).aggregate(Min('price'))
+		max_prc = ProductVariation.objects.filter(product=obj.product_id).aggregate(Max('price'))
+		obj.min_prc = min_prc['price__min']
+		obj.max_prc = max_prc['price__max']
+
 	# import pdb; pdb.set_trace()
-	context = {'products':product, 'cartItems':cartItems}
+	# min_price, max_price = product_price_range(ProductVariation)
+	# import pdb; pdb.set_trace()
+	context = {'products':products, 'cartItems':cartItems}
 	return render(request, 'store/store.html', context)
 
 
@@ -28,9 +37,13 @@ def product(request, product_slug, product_id):
 	product = Product.objects.get(product_id=product_id)
 	# main_image = ProductMainImage.objects.select_related('product').filter(product=product_id)
 	# additional_image = ProductAdditionalImage.objects.select_related('product').filter(product=product_id)
-	all_color = ProductVariation.objects.select_related('color').filter(product=product_id)
-	all_size = ProductVariation.objects.select_related('size').filter(product=product_id)
-
+	all_color = ProductVariation.objects.select_related('color').filter(product=product_id).values('color__color_name').distinct()
+	all_size = ProductVariation.objects.select_related('size').filter(product=product_id).values('size__size').distinct()
+	colors = [obj['color__color_name'] for obj in all_color]
+	sizes = [obj['size__size'] for obj in all_size]
+	# for obj in all_size:
+	# 	sizes.append(obj['size__size'])
+	# import pdb; pdb.set_trace()
 	min_prc = ProductVariation.objects.filter(product=product_id).aggregate(Min('price'))
 	max_prc = ProductVariation.objects.filter(product=product_id).aggregate(Max('price'))
 
@@ -38,7 +51,7 @@ def product(request, product_slug, product_id):
 	max_price = max_prc['price__max']
 	# import pdb; pdb.set_trace()
 	context = 	{'product':product, 'cartItems':cartItems,
-	 			 'all_color':all_color, 'all_size':all_size,
+	 			 'colors':colors, 'sizes':sizes,
 				 'min_price':min_price, 'max_price':max_price
 				 }
 

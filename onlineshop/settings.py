@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'template_debug',
     'store',
     'accounts',
 ]
@@ -52,6 +53,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'onlineshop.urls'
+
+TEMPLATE_DEBUG = True
 
 TEMPLATES = [
     {

@@ -88,3 +88,10 @@ def guessOrder(request, data):
             quantity=item['quantity']
         )
     return customer, order
+
+
+def product_price_range(ProductVariation):
+    min_prc = ProductVariation.objects.filter(product=product_id).aggregate(Min('price'))
+    max_prc = ProductVariation.objects.filter(product=product_id).aggregate(Max('price'))
+
+    return min_prc, max_prc

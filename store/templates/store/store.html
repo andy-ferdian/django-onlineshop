@@ -31,11 +31,11 @@
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>
 				<hr>
+				{{ big_int }}
+					<h5 style="display: inline-block; float: left"><strong>Rp {{product.min_prc}} - Rp {{product.max_prc}}</strong></h5>
+				{{ big_int|unlocalize }}
 				<button data-product="{{product.product_id}}" data-action="add" class="btn btn-outline-secondary btn-sm add-btn addto-cart">Add to Cart</button>
 				<a class="btn btn-outline-success btn-sm" href="{% url 'product' product.slug product.product_id %}">View</a>
-				{{ big_int }}
-					<h5 style="display: inline-block; float: right"><strong>Rp {{product.price}}</strong></h5>
-				{{ big_int|unlocalize }}
 			</div>
 		</div>
 		{% endfor %}
