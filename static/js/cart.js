@@ -20,7 +20,7 @@ for(var i = 0; i < addToCartBtns.length; i++){
   addToCartBtns[i].addEventListener('click', function(){
     var productId = this.dataset.product
     var action = this.dataset.action
-    // console.log(productId,action,csrftoken)
+    console.log(productId)
     if(user == 'AnonymousUser'){
       // console.log('not loged in')
       addCookieItem(productId, action)

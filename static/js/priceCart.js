@@ -214,7 +214,7 @@ function addtoCartGuessOrder(productId, action){
   })
 
   .then((data) =>{
-    // console.log('data:',data)
+    console.log('data:',data)
     document.getElementById("cart-total").innerHTML = data['cart_total'];
     // document.getElementById("item-quantity-"+productId).innerHTML = data['orderItemQty'];
     // location.reload()

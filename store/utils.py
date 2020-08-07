@@ -18,9 +18,11 @@ def cookieCart(request):
     for i in cart:
         cartItems += cart[i]['quantity']
 
+        product_variation = ProductVariation.objects.get(product__product_id=i, image__main_image=True)
         product = Product.objects.get(product_id=i)
-        image = ProductMainImage.objects.get(product=i)
-        total = (product.price * cart[i]['quantity'])
+        # import pdb; pdb.set_trace()
+        image = ProductImage.objects.get(product__product_id=i, main_image=True)
+        total = (product_variation.price * cart[i]['quantity'])
 
         order['get_cart_total'] += total
         order['get_cart_items'] += cart[i]['quantity']
@@ -29,7 +31,7 @@ def cookieCart(request):
             'product':{
                 'product_id':product.product_id,
                 'name':product.name,
-                'price':product.price,
+                'price':product_variation.price,
                 'image':image.main_image
                 },
             'quantity':cart[i]['quantity'],
@@ -38,7 +40,7 @@ def cookieCart(request):
 
         items.append(item)
 
-        if product.digital == False:
+        if product_variation.digital == False:
             order['shipping'] = True
 
     return {'items':items, 'order':order, 'cartItems':cartItems}
