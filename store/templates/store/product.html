@@ -43,22 +43,19 @@
 					<h5><b>{{product.name}}</b></h5>
 					<hr>
 					{{ big_int }}
-					<h4><b>Rp {{min_price}} - Rp {{max_price}}</b></h4>
+					<h4 id="prd-price"><b>Rp {{min_price}} - Rp {{max_price}}</b></h4>
 					{{ big_int|unlocalize }}
 					<hr>
 					<div class="row">
 						<div class="col-lg-2 my-auto">
 							<h6>Warna:</h6>
 						</div>
-						<div class="col-lg-10 my-auto">
-							<div class="btn-group colors my-0" data-toggle="buttons">
-								{% for prd_color in colors %}
-									<label class="btn btn-outline-secondary mr-2 update-price" data-product="{{product.product_id}}" data-action="select" data-value="{{prd_color}}">
-										<input type="radio"  name="options1" id="option1" autocomplete="off" style="display:none;">{{prd_color}}
-									</label>
-								{% endfor %}
-							</div>
+						{% for prd_color in all_colors %}
+						<div class="form-check">
+						  <input id="color-input{{prd_color.color.id}}" type="radio" class="radio-custom form-check-input" id="materialUnchecked" name="materialExampleRadios">
+						  <label data-product="{{product.product_id}}" data-action="select-color" data-value="{{prd_color.color.id}}" for="color-input{{prd_color.color.id}}" class="btn btn-outline-secondary mr-2 sel-size" for="materialUnchecked">{{prd_color.color.color_name}}</label>
 						</div>
+						{% endfor %}
 					</div>
 					<hr>
 					<div class="row">
@@ -66,11 +63,12 @@
 							<h6>Ukuran:</h6>
 						</div>
 						<div class="col-lg-10 my-auto">
-							<div class="btn-group sizes my-0" data-toggle="buttons">
-								{% for prd_size in sizes %}
-									<label class="btn btn-outline-secondary mr-2 update-price" data-product="{{product.product_id}}" data-action="select" data-value="{{prd_size}}">
-										<input type="radio" name="options2" id="option2" autocomplete="off" style="display:none;">{{prd_size}}
-									</label>
+							<div class="btn-group sizes my-0">
+								{% for prd_size in all_sizes %}
+									<button class="btn btn-outline-secondary mr-2 sel-size" data-product="{{product.product_id}}" data-action="select-size" data-value="{{prd_size.size.id}}">
+										<!-- <input type="radio" name="options2" id="option-size" autocomplete="off" style="display:none;">{{prd_size.size.size}} -->
+										{{prd_size.size.size}}
+									</button>
 								{% endfor %}
 							</div>
 						</div>

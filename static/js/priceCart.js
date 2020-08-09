@@ -1,12 +1,14 @@
 var updateBtnsCart = document.getElementsByClassName('update-price')
 var addToCartBtns = document.getElementsByClassName('prd-addto-cart')
+var selvar1Btns = document.getElementsByClassName('sel-var-1')
+var selvar2Btns = document.getElementsByClassName('sel-var-2')
 
 for(var i = 0; i < updateBtnsCart.length; i++){
   updateBtnsCart[i].addEventListener('click', function(){
     var productId = this.dataset.product
     var action = this.dataset.action
-    var value = this.dataset.value
-    console.log(productId,action,value,user)
+    var var_id = this.dataset.value
+    console.log(productId,action,var_id)
     if(user == 'AnonymousUser'){
       // console.log('not loged in')
       addCookieItem(productId, action)
@@ -21,10 +23,10 @@ for(var i = 0; i < addToCartBtns.length; i++){
   addToCartBtns[i].addEventListener('click', function(){
     var productId = this.dataset.product
     var action = this.dataset.action
-    // console.log(productId,action,csrftoken)
+    console.log(productId,action,csrftoken)
     if(user == 'AnonymousUser'){
-      // console.log('not loged in')
       addCookieItem(productId, action)
+      console.log('addtoCartGuessOrder', productId, action)
       addtoCartGuessOrder(productId, action)
     }else{
       addtoCartUserOrder(productId, action)
@@ -191,7 +193,7 @@ function addtoCartUserOrder(productId, action){
 
 
 function addtoCartGuessOrder(productId, action){
-  // console.log('User is logged in, sending data...')
+  console.log('User is logged in, sending data...')
 
   var url = '/update_item/'
 

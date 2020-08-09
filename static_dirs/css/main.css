@@ -191,3 +191,13 @@ input:disabled{
 .checkbox-inline, .checkbox label, .is-focused .checkbox-inline, .is-focused .checkbox label, .is-focused .radio-inline, .is-focused .radio label, .is-focused .switch label, .radio-inline, .radio label, .switch label {
 	color: rgba(0,0,0,1);
 }
+
+label.btn input {
+  opacity: 0;
+  position: absolute;
+}
+
+.radio-custom:checked ~ label {
+  color: white;
+	background-color: #ff5722;
+}

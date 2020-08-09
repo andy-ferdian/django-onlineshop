@@ -5,7 +5,7 @@ for(var i = 0; i < updateBtnsCart.length; i++){
   updateBtnsCart[i].addEventListener('click', function(){
     var productId = this.dataset.product
     var action = this.dataset.action
-    // console.log(productId,action,csrftoken)
+    console.log(productId,action,csrftoken)
     if(user == 'AnonymousUser'){
       // console.log('not loged in')
       addCookieItem(productId, action)
@@ -24,6 +24,7 @@ for(var i = 0; i < addToCartBtns.length; i++){
     if(user == 'AnonymousUser'){
       // console.log('not loged in')
       addCookieItem(productId, action)
+      console.log('addtoCartGuessOrder', productId, action)
       addtoCartGuessOrder(productId, action)
     }else{
       addtoCartUserOrder(productId, action)
