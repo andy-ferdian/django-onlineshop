@@ -2,7 +2,7 @@ asgiref==3.2.7
 Django==3.0.6
 django-extensions==2.2.9
 django-template-debug==0.3.5
-Pillow==7.1.2
+Pillow==9.3.0
 pytz==2020.1
 shortuuid==1.0.1
 six==1.15.0
